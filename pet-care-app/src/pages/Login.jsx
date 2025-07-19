@@ -1,5 +1,5 @@
 // src/pages/Login.jsx
-import React from 'react'
+import React, { useContext } from 'react'
 import AuthForm from '../components/AuthForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../features/auth/authSlice'
@@ -15,7 +15,6 @@ const Login = () => {
     dispatch(loginUser({ email, password })).then((res) => {
       if (res.meta.requestStatus === 'fulfilled') {
         showSuccess('Login successful!')
-        localStorage.setItem('user', JSON.stringify(res.payload))
         navigate('/dashboard', { replace: true });
       }
       if (res.meta.requestStatus === 'rejected') {

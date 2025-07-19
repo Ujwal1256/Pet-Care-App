@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,9 +26,9 @@ import UserProfile from "./pages/UserProfile";
 const App = () => {
   const dispatch = useDispatch();
   const [storedUser, setStoredUser] = useState(null);
-
   useEffect(() => {
     const user = localStorage.getItem("user");
+    console.log("user",user)
     if (user) {
       setStoredUser(JSON.parse(user));
       dispatch(loginUser.fulfilled(JSON.parse(user)));

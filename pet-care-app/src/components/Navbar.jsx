@@ -13,7 +13,9 @@ const Navbar = ({ onMenuClick }) => {
         <button onClick={onMenuClick} className="md:hidden text-2xl">
           <FiMenu />
         </button>
-        <h1 className="text-xl font-bold text-blue-600">PetCare</h1>
+        <span className="text-2xl  md:text-3xl font-bold text-blue-700">
+            PetCare<span className="text-pink-600">+</span>
+          </span>
       </div>
       <div>
         <button

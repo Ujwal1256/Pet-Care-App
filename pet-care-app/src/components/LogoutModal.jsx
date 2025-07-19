@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { showSuccess,showError } from '../utils/toastUtils';  
+import { UserContext } from '../ContextAPI/UserContext';
 
 
 const LogoutModal = ({ isOpen, onClose }) => {
