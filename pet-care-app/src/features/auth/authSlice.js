@@ -47,30 +47,26 @@ export const loginUser = createAsyncThunk(
 // 🔹 SIGNUP
 export const signupUser = createAsyncThunk(
   "auth/signupUser",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, name }, { rejectWithValue }) => {
     try {
-      const userCred = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCred = await createUserWithEmailAndPassword(auth, email, password);
       const uid = userCred.user.uid;
 
       const userData = {
+        uid,
         email,
+        name, 
         createdAt: new Date().toISOString(),
       };
 
-      // Save to Firestore
       await setDoc(doc(db, "users", uid), userData);
-
-      // Return serialized user data
-      // return { uid, ...userData };
+      return userData;
     } catch (err) {
       return rejectWithValue(err.message);
     }
   }
 );
+
 
 const authSlice = createSlice({
   name: "auth",

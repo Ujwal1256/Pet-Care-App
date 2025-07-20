@@ -20,7 +20,7 @@ const Sidebar = ({ isMobileOpen, onClose }) => {
       {/* Mobile Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden"
+          className=" bg-opacity-40 z-40 md:hidden fixed inset-0 flex items-center justify-center z-50 bg-black/40"
           onClick={onClose}
         />
       )}

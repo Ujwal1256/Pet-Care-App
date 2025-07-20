@@ -11,13 +11,14 @@ const AuthForm = ({
 }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
   const [formError, setFormError] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
     setFormError('')
 
-    if (!email || !password) {
+    if (!email || !password || (!isLogin && !name)) {
       setFormError('All fields are required.')
       return
     }
@@ -27,7 +28,12 @@ const AuthForm = ({
       return
     }
 
-    onSubmit({ email, password })
+    const formData = { email, password }
+    if (!isLogin) {
+      formData.name = name
+    }
+
+    onSubmit(formData)
   }
 
   return (
@@ -44,6 +50,17 @@ const AuthForm = ({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {!isLogin && (
+            <input
+              type="text"
+              placeholder="Name"
+              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={name}
+              required
+              onChange={(e) => setName(e.target.value)}
+            />
+          )}
+
           <input
             type="email"
             placeholder="Email"

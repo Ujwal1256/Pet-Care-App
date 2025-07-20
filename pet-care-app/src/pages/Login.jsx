@@ -2,7 +2,7 @@
 import React, { useContext } from 'react'
 import AuthForm from '../components/AuthForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../features/auth/authSlice'
+import { loginUser,clearError } from '../features/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 import { showError,showSuccess } from '../utils/toastUtils'
 
@@ -23,6 +23,11 @@ const Login = () => {
     })
   }
 
+  const goToSignUp = () =>{
+    dispatch(clearError())
+    navigate('/signup')
+  }
+
   return (
     <AuthForm
       title="Login"
@@ -31,7 +36,7 @@ const Login = () => {
       onSubmit={handleLogin}
       isLogin={true}
       switchLabel="Don't have an account?"
-      onSwitch={() => navigate('/signup')}
+      onSwitch={goToSignUp}
     />
   )
 }
