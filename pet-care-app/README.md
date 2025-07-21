@@ -39,7 +39,7 @@ A complete Pet Care Management Web App where pet owners can add, manage, and mon
 ---
 
 ## 📁 Folder Structure
-``sh
+
 src/
 ├── components/ # Reusable UI components
 ├── features/ # Redux slices (auth, pets, reminders, etc.)
@@ -47,7 +47,7 @@ src/
 ├── pages/ # App pages (Dashboard, Login, etc.)
 ├── App.js
 ├── index.js
-```
+---
 
 ---
 
