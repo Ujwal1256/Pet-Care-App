@@ -1,6 +1,6 @@
 # 🐾 Pet Care App
 
-**Live Demo:** [pet-care-app-for-all.netlify.app](https://pet-care-app-for-all.netlify.app)
+🚀 **Live Demo:** Explore the app in action here: [pet-care-app-for-all.netlify.app](https://pet-care-app-for-all.netlify.app)
 
 A complete Pet Care Management Web App where pet owners can add, manage, and monitor their pets' health, reminders, and daily needs. Built using **React**, **Redux Toolkit**, **Firebase**, and **Tailwind CSS**.
 
@@ -39,24 +39,72 @@ A complete Pet Care Management Web App where pet owners can add, manage, and mon
 ---
 
 ## 📁 Folder Structure
-
-
+``sh
+src/
+├── components/ # Reusable UI components
+├── features/ # Redux slices (auth, pets, reminders, etc.)
+├── firebase/ # Firebase config
+├── pages/ # App pages (Dashboard, Login, etc.)
+├── App.js
+├── index.js
+```
 
 ---
 
 ## 📸 Screenshots
 
-| Login Page | Dashboard |
-|------------|-----------|
-| ![Login](./screenshots/login.png) | ![Dashboard](./screenshots/dashboard.png) |
+Here are some glimpses of the Pet Care App in action:
 
-> *(Make sure to add your screenshots inside the `/screenshots` folder)*
+### Login Page
+![Landing Page](![alt text](image.png))
+
+### Login Page
+![Login Page](![alt text](image-1.png))
+
+### Dashboard
+![Dashboard ](![alt text](image-2.png))
+
+
+---
+
+## 🚀 Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+Make sure you have Node.js and npm (or yarn) installed on your machine.
+
+* npm
+    ```sh
+    npm install npm@latest -g
+    ```
+
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/Ujwal1256/Pet-Care-App.git
+    ```
+2.  Navigate into the project directory
+    ```sh
+    cd pet-care-app
+    ```
+3.  Install NPM packages
+    ```sh
+    npm install
+    ```
+4.  Create a `.env` file in the root directory and add your Firebase configuration (e.g., `REACT_APP_FIREBASE_API_KEY=your_key`). Refer to Firebase documentation for details.
+5.  Start the development server
+    ```sh
+    npm start
+    ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, suggestions, and feedback are welcome!  
+Contributions, suggestions, and feedback are welcome!  
 Feel free to open an issue or submit a pull request.
 
 ---
@@ -69,9 +117,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**Ujwal Jakhamate**  
-📧 [Email Me](mailto:jakhamateujwal1256@gmail.com)  
+This project was created by:
 
----
-
-
+**Ujwal Jakhamate**  
+📧 [Email Me](mailto:jakhamateujwal1256@gmail.com)  
