@@ -47,7 +47,7 @@ src/
 ├── pages/ # App pages (Dashboard, Login, etc.)
 ├── App.js
 ├── index.js
----
+
 
 ---
 
