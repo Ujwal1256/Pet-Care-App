@@ -127,17 +127,17 @@ After starting the app:
 
 Here are some glimpses of the Pet Care App in action:
 
+### Landing  Page
+
+![alt text](image.png)
+
 ### Login Page
 
-![Landing Page](![alt text](image.png))
-
-### Login Page
-
-![Login Page](![alt text](image-1.png))
+![alt text](image-1.png)
 
 ### Dashboard
 
-![Dashboard ](![alt text](image-2.png))
+![alt text](image-2.png)
 
 ---
 
@@ -147,9 +147,9 @@ To test the app quickly:
 
 ```bash
 
-Email: testuser@example.com
+Email: ujwal@gmail.com
 
-Password: test1234
+Password: 123456
 
 ```
 ---
