@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { showError } from '../utils/toastUtils';
 
-export default function ReminderModal({ isOpen, onClose, onSubmit }) {
+export default function ReminderModal({ isOpen, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
     title: '',
     time: '',
     repeat: 'none',
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    } else {
+      setFormData({ title: '', time: '', repeat: 'none' });
+    }
+  }, [initialData]);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,7 +29,6 @@ export default function ReminderModal({ isOpen, onClose, onSubmit }) {
 
     onSubmit(formData);
     onClose();
-    setFormData({ title: '', time: '', repeat: 'none' });
   };
 
   if (!isOpen) return null;
@@ -29,7 +36,9 @@ export default function ReminderModal({ isOpen, onClose, onSubmit }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
       <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-        <h3 className="text-xl font-semibold mb-4">Add Reminder</h3>
+        <h3 className="text-xl font-semibold mb-4">
+          {initialData ? "Edit Reminder" : "Add Reminder"}
+        </h3>
 
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
@@ -73,7 +82,7 @@ export default function ReminderModal({ isOpen, onClose, onSubmit }) {
               type="submit"
               className="px-4 py-2 bg-blue-600 text-white rounded"
             >
-              Add
+              {initialData ? "Update" : "Add"}
             </button>
           </div>
         </form>
@@ -81,3 +90,4 @@ export default function ReminderModal({ isOpen, onClose, onSubmit }) {
     </div>
   );
 }
+  

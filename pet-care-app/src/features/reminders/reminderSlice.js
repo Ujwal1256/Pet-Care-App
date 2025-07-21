@@ -2,100 +2,78 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 
-// Add Reminder
+// ADD Reminder
 export const addReminder = createAsyncThunk(
   "reminders/addReminder",
   async ({ reminderData, uid }, { rejectWithValue }) => {
     try {
       const reminderId = Date.now().toString();
-
       const newReminder = { ...reminderData, reminderId };
       const userRef = doc(db, "users", uid);
-      const userDocSnap = await getDoc(userRef);
-      const existingReminders = userDocSnap.exists()
-        ? userDocSnap.data().reminders || []
-        : [];
-
-      const updatedReminders = [...existingReminders, newReminder];
-
-      await updateDoc(userRef, { reminders: updatedReminders });
-
+      const userSnap = await getDoc(userRef);
+      const existing = userSnap.exists() ? userSnap.data().reminders || [] : [];
+      const updated = [...existing, newReminder];
+      await updateDoc(userRef, { reminders: updated });
       return newReminder;
-    } catch (error) {
-      return rejectWithValue(error.message);
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
   }
 );
 
-// Fetch Reminders
+// FETCH Reminders
 export const fetchReminders = createAsyncThunk(
   "reminders/fetchReminders",
   async (uid, { rejectWithValue }) => {
     try {
       const userRef = doc(db, "users", uid);
-      const userDocSnap = await getDoc(userRef);
-
-      if (userDocSnap.exists()) {
-        return userDocSnap.data().reminders || [];
-      }
-      return [];
-    } catch (error) {
-      return rejectWithValue(error.message);
+      const snap = await getDoc(userRef);
+      return snap.exists() ? snap.data().reminders || [] : [];
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
   }
 );
 
-// Delete Reminder
+// DELETE Reminder
 export const deleteReminder = createAsyncThunk(
   "reminders/deleteReminder",
   async ({ uid, reminderId }, { rejectWithValue }) => {
     try {
       const userRef = doc(db, "users", uid);
-      const userDocSnap = await getDoc(userRef);
-
-      if (!userDocSnap.exists()) return [];
-
-      const existingReminders = userDocSnap.data().reminders || [];
-      const updatedReminders = existingReminders.filter(
-        (r) => r.reminderId !== reminderId
-      );
-
-      await updateDoc(userRef, { reminders: updatedReminders });
-
+      const snap = await getDoc(userRef);
+      if (!snap.exists()) return [];
+      const reminders = snap.data().reminders || [];
+      const updated = reminders.filter((r) => r.reminderId !== reminderId);
+      await updateDoc(userRef, { reminders: updated });
       return reminderId;
-    } catch (error) {
-      return rejectWithValue(error.message);
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
   }
 );
 
-// Update Reminder
+// UPDATE Reminder
 export const updateReminder = createAsyncThunk(
   "reminders/updateReminder",
   async ({ uid, updatedReminder }, { rejectWithValue }) => {
     try {
       const userRef = doc(db, "users", uid);
-      const userDocSnap = await getDoc(userRef);
-
-      if (!userDocSnap.exists()) return [];
-
-      const existingReminders = userDocSnap.data().reminders || [];
-      const updatedReminders = existingReminders.map((reminder) =>
-        reminder.reminderId === updatedReminder.reminderId
-          ? updatedReminder
-          : reminder
+      const snap = await getDoc(userRef);
+      if (!snap.exists()) return [];
+      const reminders = snap.data().reminders || [];
+      const updated = reminders.map((r) =>
+        r.reminderId === updatedReminder.reminderId ? updatedReminder : r
       );
-
-      await updateDoc(userRef, { reminders: updatedReminders });
-
+      await updateDoc(userRef, { reminders: updated });
       return updatedReminder;
-    } catch (error) {
-      return rejectWithValue(error.message);
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
   }
 );
 
-// Slice
+// SLICE
 const reminderSlice = createSlice({
   name: "reminders",
   initialState: {

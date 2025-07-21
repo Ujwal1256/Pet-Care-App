@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,28 +12,38 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LandingPage from "./pages/LandingPage";
 import { loginUser } from "./features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MyPets from "./pages/MyPets";
 import Appointments from "./pages/Appointments";
 import Medications from "./pages/Medications";
 import Reminders from "./pages/Reminders";
-import Settings from "./pages/Settings";
 import DashboardLayout from "./components/DashboardLayout";
-import PetProfile from "./pages/PetProfile";
 import "./App.css";
-import UserProfile from "./pages/UserProfile";
+import WeightScreen from "./pages/WeightScreen";
+import { fetchPets } from "./features/myPets/petSlice";
+import { fetchAppointments } from "./features/appointment/appointmentSlice";
+import { fetchReminders } from "./features/reminders/reminderSlice";
+import { fetchMedications } from "./features/medication/medicationSlice";
+import { fetchWeights } from "./features/weight/weightSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  const [storedUser, setStoredUser] = useState(null);
+  const storedUser = useSelector((state) => state.auth.user);
   useEffect(() => {
     const user = localStorage.getItem("user");
-    console.log("user",user)
-    if (user) {
-      setStoredUser(JSON.parse(user));
-      dispatch(loginUser.fulfilled(JSON.parse(user)));
+    if (user && !storedUser) {
+      const parsedUser = JSON.parse(user);
+
+      dispatch({ type: "auth/loginUser/fulfilled", payload: parsedUser });
+
+      const uid = parsedUser.uid;
+      dispatch(fetchPets(uid));
+      dispatch(fetchAppointments(uid));
+      dispatch(fetchReminders(uid));
+      dispatch(fetchMedications(uid));
+      dispatch(fetchWeights(uid));
     }
-  }, [dispatch]);
+  }, [dispatch, storedUser]);
 
   return (
     <Router>
@@ -41,7 +51,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={storedUser ? <Navigate to="/dashboard" /> : <LandingPage />}
+          element={storedUser ? <Dashboard /> : <LandingPage />}
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
@@ -86,31 +96,14 @@ const App = () => {
           }
         />
         <Route
-          path="/settings"
+          path="/weight"
           element={
             <DashboardLayout>
-              <Settings />
-            </DashboardLayout>
-          }
-        />
-          <Route
-          path="/user-profile"
-          element={
-            <DashboardLayout>
-              <UserProfile />
-            </DashboardLayout>
-          }
-        />
-        <Route
-          path="/pet/:id"
-          element={
-            <DashboardLayout>
-              <PetProfile />
+              <WeightScreen />
             </DashboardLayout>
           }
         />
       </Routes>
-
     </Router>
   );
 };

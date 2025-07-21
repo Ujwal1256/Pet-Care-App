@@ -8,11 +8,10 @@ const Sidebar = ({ isMobileOpen, onClose }) => {
   const links = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Appointments", path: "/appointments" },
-    { name: "Medical Records", path: "/medications" },
+    { name: "Medications", path: "/medications" },
     { name: "My Pets", path: "/mypets" },
     { name: "Reminders", path: "/reminders" },
-    { name: "Profile", path: "/user-profile" },
-    { name: "Settings", path: "/settings" },
+    { name: "Weight Monitoring", path: "/weight" },
   ];
 
   return (

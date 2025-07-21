@@ -1,18 +1,20 @@
-import { createAsyncThunk,createSlice } from '@reduxjs/toolkit';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase/firebase';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
 
 // Add Pet
 export const addPet = createAsyncThunk(
-  'pets/addPet',
+  "pets/addPet",
   async ({ petData, uid }, { rejectWithValue }) => {
     try {
-      const userRef = doc(db, 'users', uid);
-      const petId = Date.now().toString(); 
+      const userRef = doc(db, "users", uid);
+      const petId = Date.now().toString();
       const newPet = { ...petData, petId };
 
       const userDocSnap = await getDoc(userRef);
-      const existingPets = userDocSnap.exists() ? userDocSnap.data().mypets || [] : [];
+      const existingPets = userDocSnap.exists()
+        ? userDocSnap.data().mypets || []
+        : [];
 
       const updatedPets = [...existingPets, newPet];
 
@@ -22,7 +24,7 @@ export const addPet = createAsyncThunk(
 
       return newPet;
     } catch (error) {
-      console.error('Add Pet Error:', error);
+      console.error("Add Pet Error:", error);
       return rejectWithValue(error.message);
     }
   }
@@ -30,31 +32,67 @@ export const addPet = createAsyncThunk(
 
 // Fetch Pets
 export const fetchPets = createAsyncThunk(
-  'pets/fetchPets',
+  "pets/fetchPets",
   async (uid, { rejectWithValue }) => {
     try {
-      const userRef = doc(db, 'users', uid);
+      const userRef = doc(db, "users", uid);
       const userDocSnap = await getDoc(userRef);
 
-      console.log("userDocSnap",userDocSnap)
       if (userDocSnap.exists()) {
         const data = userDocSnap.data();
-        console.log("data",data.mypets)
         return data.mypets || [];
       } else {
-        console.log("userData not exist")
+        console.log("userData not exist");
         return [];
       }
     } catch (error) {
-      console.error('Fetch Pets Error:', error);
+      console.error("Fetch Pets Error:", error);
       return rejectWithValue(error.message);
     }
   }
 );
 
+export const updatePet = createAsyncThunk(
+  "pets/updatePet",
+  async ({ updatedPet, uid }, { rejectWithValue }) => {
+    try {
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+      const pets = userSnap.data().mypets || [];
+
+      const updatedPets = pets.map((pet) =>
+        pet.petId === updatedPet.petId ? updatedPet : pet
+      );
+
+      await updateDoc(userRef, { mypets: updatedPets });
+      return updatedPet;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Delete Pet
+export const deletePet = createAsyncThunk(
+  "pets/deletePet",
+  async ({ petId, uid }, { rejectWithValue }) => {
+    try {
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+      const pets = userSnap.data().mypets || [];
+
+      const updatedPets = pets.filter((pet) => pet.petId !== petId);
+      await updateDoc(userRef, { mypets: updatedPets });
+
+      return petId;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const petSlice = createSlice({
-  name: 'pets',
+  name: "pets",
   initialState: {
     pets: [],
     loading: false,
@@ -82,6 +120,33 @@ const petSlice = createSlice({
         state.pets = action.payload || [];
       })
       .addCase(fetchPets.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updatePet.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updatePet.fulfilled, (state, action) => {
+        state.loading = false;
+        state.pets = state.pets.map((pet) =>
+          pet.petId === action.payload.petId ? action.payload : pet
+        );
+      })
+      .addCase(updatePet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      .addCase(deletePet.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deletePet.fulfilled, (state, action) => {
+        state.loading = false;
+        state.pets = state.pets.filter((pet) => pet.petId !== action.payload);
+      })
+      .addCase(deletePet.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

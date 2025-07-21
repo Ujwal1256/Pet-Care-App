@@ -1,17 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,signOut 
+  createUserWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth, db } from "../../firebase/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
       await signOut(auth);
+      localStorage.removeItem("user");
       return true;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -49,13 +50,17 @@ export const signupUser = createAsyncThunk(
   "auth/signupUser",
   async ({ email, password, name }, { rejectWithValue }) => {
     try {
-      const userCred = await createUserWithEmailAndPassword(auth, email, password);
+      const userCred = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const uid = userCred.user.uid;
 
       const userData = {
         uid,
         email,
-        name, 
+        name,
         createdAt: new Date().toISOString(),
       };
 
@@ -67,7 +72,6 @@ export const signupUser = createAsyncThunk(
   }
 );
 
-
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -76,7 +80,6 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
-
     clearError(state) {
       state.error = null;
     },
@@ -111,20 +114,21 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-        // LOGOUT
-    .addCase(logoutUser.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    })
-    .addCase(logoutUser.fulfilled, (state) => {
-      state.loading = false;
-      state.user = null;
-      localStorage.removeItem("user");
-    })
-    .addCase(logoutUser.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
+      // LOGOUT
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        if (action.payload === true) {
+          state.loading = false;
+          state.user = null;
+        }
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 

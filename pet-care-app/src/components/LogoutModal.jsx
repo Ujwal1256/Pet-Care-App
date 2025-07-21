@@ -1,21 +1,19 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
-import { logoutUser } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
-import { showSuccess,showError } from '../utils/toastUtils';  
-
+import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { showSuccess, showError } from "../utils/toastUtils";
 
 const LogoutModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleLogout = async () => {
+  const handleLogout =  () => {
     try {
       dispatch(logoutUser());
-      showSuccess('Logged out successfully!');
-      navigate('/', { replace: true });
+      showSuccess("Logged out successfully!");
+      navigate("/", { replace: true });
     } catch (error) {
-      showError('Logout failed!');
+      showError("Logout failed!");
     }
   };
 
@@ -24,7 +22,9 @@ const LogoutModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm flex flex-col items-center">
-        <h2 className="text-lg font-semibold mb-4 text-center">Are you sure you want to logout?</h2>
+        <h2 className="text-lg font-semibold mb-4 text-center">
+          Are you sure you want to logout?
+        </h2>
         <div className="flex justify-center gap-4 w-full">
           <button
             className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-800"

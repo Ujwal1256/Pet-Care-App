@@ -1,22 +1,6 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { showError } from "../utils/toastUtils";
+import React, { useState, useEffect } from "react";
 
-export default function AppointmentModal({ isOpen, onClose, onSubmit }) {
-  const pets = useSelector((state) => state.pets.pets);
-
-  const today = new Date().toISOString().split("T")[0];
-
-  const getMinTime = () => {
-    if (formData.date === today) {
-      const now = new Date();
-      const hours = now.getHours().toString().padStart(2, "0");
-      const minutes = now.getMinutes().toString().padStart(2, "0");
-      return `${hours}:${minutes}`;
-    }
-    return "00:00";
-  };
-
+export default function AppointmentModal({ isOpen, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
     petName: "",
     vetName: "",
@@ -25,108 +9,99 @@ export default function AppointmentModal({ isOpen, onClose, onSubmit }) {
     time: "",
   });
 
+  // Pre-fill the form when editing
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    } else {
+      setFormData({
+        petName: "",
+        vetName: "",
+        reason: "",
+        date: "",
+        time: "",
+      });
+    }
+  }, [initialData]);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      !formData.petName ||
-      !formData.vetName ||
-      !formData.reason ||
-      !formData.date ||
-      !formData.time
-    ) {
-      showError("Please fill in all fields.");
-      return;
-    }
-    console.log("foramdaat",formData)
     onSubmit(formData);
     onClose();
-    setFormData({
-      petName: "",
-      vetName: "",
-      reason: "",
-      date: "",
-      time: "",
-    });
   };
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
-      <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-        <h3 className="text-xl font-semibold mb-4">Add Appointment</h3>
+      <div className="bg-white p-6 rounded-lg shadow-md w-[90%] max-w-md">
+        <h3 className="text-xl font-bold mb-4 text-gray-800">
+          {initialData ? "Edit Appointment" : "Add Appointment"}
+        </h3>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <select
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
             name="petName"
             value={formData.petName}
             onChange={handleChange}
+            placeholder="Pet Name"
             required
-            className="w-full border rounded p-2"
-          >
-            <option value="">Select Pet</option>
-            {pets.map((pet, index) => (
-              <option key={index} value={pet.name}>
-                {pet.name} ({pet.breed})
-              </option>
-            ))}
-          </select>
-
+            className="w-full p-2 border rounded"
+          />
           <input
+            type="text"
             name="vetName"
-            placeholder="Veterinarian Name"
             value={formData.vetName}
             onChange={handleChange}
+            placeholder="Veterinarian Name"
             required
-            className="w-full border rounded p-2"
+            className="w-full p-2 border rounded"
           />
-
           <input
+            type="text"
             name="reason"
-            placeholder="Reason"
             value={formData.reason}
             onChange={handleChange}
+            placeholder="Reason for Visit"
             required
-            className="w-full border rounded p-2"
+            className="w-full p-2 border rounded"
           />
-
           <input
             type="date"
             name="date"
             value={formData.date}
             onChange={handleChange}
             required
-            min={new Date().toISOString().split("T")[0]}
-            className="w-full border rounded p-2"
+            className="w-full p-2 border rounded"
           />
-
           <input
             type="time"
             name="time"
             value={formData.time}
             onChange={handleChange}
             required
-            min={getMinTime()}
-            className="w-full border rounded p-2"
+            className="w-full p-2 border rounded"
           />
 
-          <div className="mt-4 flex justify-end space-x-2">
+          <div className="flex justify-end space-x-2 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-200 rounded"
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              Add
+              {initialData ? "Update" : "Add"}
             </button>
           </div>
         </form>

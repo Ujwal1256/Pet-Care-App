@@ -1,12 +1,14 @@
 import React from 'react';
 
-const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
+const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData, isEditing }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
       <div className="bg-white rounded-2xl shadow-2xl p-6 w-[90%] max-w-md animate-fadeIn">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">🐾 Add a New Pet</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+          {isEditing ? "✏️ Edit Pet" : "🐾 Add a New Pet"}
+        </h2>
 
         <form onSubmit={onSubmit} className="space-y-5">
           <div>
@@ -17,7 +19,7 @@ const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
               value={petData.name}
               onChange={onChange}
               placeholder="e.g., Bruno"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2"
               required
             />
           </div>
@@ -30,7 +32,7 @@ const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
               value={petData.type}
               onChange={onChange}
               placeholder="e.g., Dog, Cat"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2"
               required
             />
           </div>
@@ -43,7 +45,7 @@ const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
               value={petData.breed}
               onChange={onChange}
               placeholder="e.g., Labrador"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2"
             />
           </div>
 
@@ -53,11 +55,11 @@ const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
               <input
                 type="number"
                 name="age"
-                min='0'
+                min="0"
                 value={petData.age}
                 onChange={onChange}
                 placeholder="e.g., 2"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               />
             </div>
@@ -68,7 +70,7 @@ const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
                 name="gender"
                 value={petData.gender}
                 onChange={onChange}
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-4 py-2"
                 required
               >
                 <option value="">Select</option>
@@ -82,15 +84,15 @@ const AddPetModal = ({ isOpen, onClose, onChange, onSubmit, petData }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100 transition"
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
             >
-              Add Pet
+              {isEditing ? "Update Pet" : "Add Pet"}
             </button>
           </div>
         </form>
