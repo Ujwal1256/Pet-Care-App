@@ -45,11 +45,7 @@ pet-care-app/
 
 ## 🎥 Video Walkthrough of the Project
 
-[🔗 Short demo walkthrough (1-3 min)](https://your-video-link.com)
-
-## 🧠 Video Walkthrough of the Codebase
-
-[🔗 Short codebase tour (1-5 min)](https://your-code-video-link.com)
+[🔗 demo walkthrough )](https://youtu.be/Llxk9bN45KA)
 
 ---
 
