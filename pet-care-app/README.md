@@ -45,7 +45,7 @@ pet-care-app/
 
 ## 🎥 Video Walkthrough of the Project
 
-[🔗 demo walkthrough )](https://youtu.be/Llxk9bN45KA)
+[🔗 demo walkthrough ](https://youtu.be/Llxk9bN45KA)
 
 ---
 
