@@ -26,7 +26,7 @@ const Sidebar = ({ isMobileOpen, onClose }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-50 bg-white md:w-64 w-64 h-full shadow-md transition-transform duration-300 ease-in-out
+        className={`fixed top-0 left-0 z-50 bg-white md:w-64 w-64 h-full shadow-md transition-transform duration-300 ease-in-out bg-green-900
         ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:static`}

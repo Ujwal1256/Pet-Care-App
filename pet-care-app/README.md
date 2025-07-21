@@ -1,12 +1,84 @@
-# React + Vite
+# 🐾 Pet Care App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Demo:** [pet-care-app-for-all.netlify.app](https://pet-care-app-for-all.netlify.app)
 
-Currently, two official plugins are available:
+A complete Pet Care Management Web App where pet owners can add, manage, and monitor their pets' health, reminders, and daily needs. Built using **React**, **Redux Toolkit**, **Firebase**, and **Tailwind CSS**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🔐 **Authentication**
+  - Email/password login and signup
+  - Protected routes based on user session
+
+- 🐶 **Pet Management**
+  - Add, view, and delete pets
+  - Track details like name, species, and age
+
+- 📅 **Reminders**
+  - Add vet appointments or medicine reminders
+  - See them listed in the Reminders section
+
+- 📈 **Weight Monitoring**
+  - Log your pet’s weight over time
+  - Visualize progress with a chart
+
+- 🖥️ **Responsive UI**
+  - Clean and adaptive interface for desktop and mobile
+  - Styled using **Tailwind CSS**
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React, Redux Toolkit, React Router
+- **Backend/Database**: Firebase (Authentication & Firestore)
+- **Styling**: Tailwind CSS
+
+---
+
+## 📁 Folder Structure
+
+src/
+├── components/ # Reusable UI components
+├── features/ # Redux slices (auth, pets, reminders, etc.)
+├── firebase/ # Firebase config
+├── pages/ # App pages (Dashboard, Login, etc.)
+├── App.js
+├── index.js
+
+
+---
+
+## 📸 Screenshots
+
+| Login Page | Dashboard |
+|------------|-----------|
+| ![Login](./screenshots/login.png) | ![Dashboard](./screenshots/dashboard.png) |
+
+> *(Make sure to add your screenshots inside the `/screenshots` folder)*
+
+---
+
+## 🤝 Contributing
+
+Contributions, suggestions, and feedback are welcome!  
+Feel free to open an issue or submit a pull request.
+
+---
+
+## 📃 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 👨‍💻 Author
+
+**Ujwal Jakhamate**  
+📧 [Email Me](mailto:jakhamateujwal1256@gmail.com)  
+
+---
+
+
